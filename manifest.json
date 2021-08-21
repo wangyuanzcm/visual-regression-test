@@ -1,0 +1,30 @@
+{
+  "manifest_version": 2,
+  "name": "visual regression test",
+  "version": "1.0.0",
+  "description": "开发过程中的视觉回归测试",
+  "devtools_page": "devtools.html",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "nativeMessaging",
+    "<all_urls>"
+  ],
+  "optional_permissions": [],
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+
+  "background":{
+    "scripts":[
+      "background.js"
+    ]
+  },
+  "app":{
+    "launch": {
+      "local_path": "panel/index.html"
+    }
+  }
+}

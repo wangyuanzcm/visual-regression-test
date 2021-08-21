@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Resemble.js : Image analysis</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width">
+		<link rel="stylesheet" href="bootstrap.min.css">
+		<link rel="stylesheet" href="resemble.css?v1">
+	</head>
+	<body>
+		<div class="container">
+			<header>
+				<div class="page-header">
+					<div class="row">
+						<input class="input-file pull-left" accept="image/bmp,image/jpeg,image/jpg,image/png"   
+ 						id="fileInput" type="file">
+						<button class="btn pull-right" id="example-images">开始对比</button>
+						<span id="error-info" class="pull-right error-info"></span>
+					  </div>
+				</div>
+			</header>
+
+			<section role="main">
+				<div class="row">
+					<div class="span12">
+						<div class="row">
+							<div class="span6">
+								<div id="image-diff" class="small-drop-zone">
+									Diff will appear here.
+								</div>
+							</div>
+							<div class="span6">
+								<div class="btn-group buttons" style="display:none">
+									<button class="btn" id="raw">Ignore nothing</button>
+									<button class="btn active" id="less">Ignore less</button>
+									<button class="btn" id="colors">Ignore colors</button>
+									<button class="btn" id="antialiasing">Ignore antialiasing</button>
+									<button class="btn" id="alpha">Ignore alpha</button>
+								</div>
+
+								<br/>
+								<br/>
+								<div class="btn-group buttons" style="display:none">
+									<button class="btn" id="original-size">Use original size</button>
+									<button class="btn active" id="same-size">Scale to same size</button>
+								</div>
+
+								<div class="btn-group buttons" style="display:none">
+									<button class="btn active" id="pink">Pink</button>
+									<button class="btn" id="yellow">Yellow</button>
+								</div>
+								<br/>
+								<br/>
+
+								<div class="btn-group buttons" style="display:none">
+									<button class="btn active" id="flat">Flat</button>
+									<button class="btn" id="movement">Movement</button>
+									<button class="btn" id="flatDifferenceIntensity">Flat with diff intensity</button>
+									<button class="btn" id="movementDifferenceIntensity">Movement with diff intensity</button>
+									<button class="btn" id="diffOnly">Diff portion from the input</button>
+								</div>
+								<br/>
+								<br/>
+
+								<div class="btn-group buttons" style="display:none">
+									<button class="btn active" id="opaque">Opaque</button>
+									<button class="btn" id="transparent">Transparent</button>
+								</div>
+								<br/>
+								<br/>
+
+								<div class="btn-group buttons" style="display:none">
+									<div class="row">
+										<div class="span1">
+											<label>Left</label>
+											<input type="number" class="input-mini" id="bounding-box-x1" value="100" />
+										</div>
+										<div class="span1">
+											<label>Top</label>
+											<input type="number" class="input-mini" id="bounding-box-y1" value="100" />
+										</div>
+										<div class="span1">
+											<label>Right</label>
+											<input type="number" class="input-mini" id="bounding-box-x2" value="400" />
+										</div>
+										<div class="span1">
+											<label>Bottom</label>
+											<input type="number" class="input-mini" id="bounding-box-y2" value="300" />
+										</div>
+										<div class="span2">
+											<label>&nbsp;</label>
+											<button class="btn" id="boundingBox">Set bounding box</button>
+										</div>
+									</div>
+								</div>
+
+								<br/>
+								<br/>
+
+								<div class="btn-group buttons" style="display:none">
+									<div class="row">
+										<div class="span1">
+											<label>Left</label>
+											<input type="number" class="input-mini" id="ignored-box-x1" value="120" />
+										</div>
+										<div class="span1">
+											<label>Top</label>
+											<input type="number" class="input-mini" id="ignored-box-y1" value="200" />
+										</div>
+										<div class="span1">
+											<label>Right</label>
+											<input type="number" class="input-mini" id="ignored-box-x2" value="400" />
+										</div>
+										<div class="span1">
+											<label>Bottom</label>
+											<input type="number" class="input-mini" id="ignored-box-y2" value="250" />
+										</div>
+										<div class="span2">
+											<label>&nbsp;</label>
+											<button class="btn" id="ignoredBox">Set ignored box</button>
+										</div>
+									</div>
+								</div>
+
+								<br/>
+								<br/>
+
+								<div class="btn-group buttons" style="display:none">
+									<div class="row">
+										<div class="span1">
+											<label>Red</label>
+											<input type="number" class="input-mini" id="ignored-color-r" min="0" max="255" value="255" />
+										</div>
+										<div class="span1">
+											<label>Green</label>
+											<input type="number" class="input-mini" id="ignored-color-g" min="0" max="255" value="0" />
+										</div>
+										<div class="span1">
+											<label>Blue</label>
+											<input type="number" class="input-mini" id="ignored-color-b" min="0" max="255" value="0" />
+										</div>
+										<div class="span1">
+											<label>Alpha</label>
+											<input type="number" class="input-mini" id="ignored-color-a" min="0" max="255" value="255" />
+										</div>
+										<div class="span2">
+											<label>&nbsp;</label>
+											<button class="btn" id="ignoredColor">Set ignored color</button>
+										</div>
+									</div>
+								</div>
+
+								<br/>
+								<br/>
+								<div id="diff-results" style="display:none;">
+									<p>
+										<strong>The second image is <span id="mismatch"></span>% different compared to the first.
+										<span id="differentdimensions" style="display:none;">And they have different dimensions.</span></strong>
+									</p>
+									<p>
+										Use the buttons above to change the comparison algorithm.  Perhaps you don't care about color? Annoying antialiasing causing too much noise?  Resemble.js offers multiple comparison options.
+									</p>
+								</div>
+
+								<p id="thesame" style="display:none;">
+									<strong>These images are the same!</strong>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br/><br/>
+		
+			</section>
+		</div>
+		<script src="jquery.min.js"></script>
+		<script src="resemble.js"></script>
+		<script src="main.js"></script>
+	</body>
+</html>
